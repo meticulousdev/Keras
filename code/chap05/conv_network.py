@@ -72,7 +72,7 @@ history = model.fit_generator(train_generator,
                               validation_data=validation_generator,
                               validation_steps=50)
         
-model.save('cats_and_dogs_small_1.h5')
+model.save('./models/cats_and_dogs_small_1.h5')
 
 # %%
 acc = history.history['acc']
