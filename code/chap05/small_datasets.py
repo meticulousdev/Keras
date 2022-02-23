@@ -1,7 +1,7 @@
 import os, shutil
 
 # %%
-folder_dir = 'C:/Users/'
+folder_dir = os.getcwd()
 original_dataset_dir = folder_dir + '/datasets/cats_and_dogs/train'
 
 base_dir = folder_dir + '/datasets/cats_and_dogs_small'
