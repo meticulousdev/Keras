@@ -25,9 +25,7 @@ model.add(layers.Flatten())
 model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
 
-# %%
 print(model.summary())
-
 # %%
 # model.compile(loss='binary_crossentropy',
 #               optimizer=optimizers.RMSprop(lr=1e-4),
