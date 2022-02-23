@@ -5,12 +5,15 @@ from keras import models
 from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
-import tensorflow as tf
+from tensorflow.keras.optimizers import RMSprop
 
 import os
+import time
 
 
 # %%
+start = time.time()
+
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu', 
                         input_shape=(150, 150, 3)))
@@ -32,13 +35,14 @@ print(model.summary())
 #               metrics=['acc'])
 
 model.compile(loss='binary_crossentropy',
-              optimizer=tf.keras.optimizers.RMSprop(learning_rate=1e-4),
+              optimizer=RMSprop(learning_rate=1e-4),
               metrics=['acc'])
 
 # %%
-original_dataset_dir = './datasets/cats_and_dogs/train'
+folder_dir = os.getcwd()
+original_dataset_dir = folder_dir + '/datasets/cats_and_dogs/train'
 
-base_dir = './datasets/cats_and_dogs_small'
+base_dir = folder_dir + '/datasets/cats_and_dogs_small'
 
 train_dir = os.path.join(base_dir, 'train')
 validation_dir = os.path.join(base_dir, 'validation')
@@ -93,3 +97,5 @@ plt.title('Training and validation loss')
 plt.legend()
 
 plt.show()
+
+print(f"elapsed time: {time.time() - start}")
