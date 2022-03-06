@@ -71,7 +71,7 @@ model.add(layers.Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy',
               optimizer=RMSprop(lr=1e-4),
-              metrics=['accuracy'])
+              metrics=['acc'])
 
 # %%
 train_datagen = ImageDataGenerator(rescale=1./255,
@@ -104,8 +104,8 @@ history = model.fit_generator(train_generator,
 model.save('./cats_and_dogs_small_2.h5')
 
 # %%
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+acc = history.history['acc']
+val_acc = history.history['val_acc']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
