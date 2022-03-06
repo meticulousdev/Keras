@@ -3,6 +3,9 @@ from email import generator
 from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+from tensorflow.keras import models, layers
+from tensorflow.keras.optimizers import RMSprop
+
 import os
 import numpy as np
 
@@ -26,10 +29,11 @@ test_dir = os.path.join(base_dir, 'test')
 datagen = ImageDataGenerator(rescale=1./255)
 batch_size = 20
 
+
 def extract_features(directory, sample_count):
     # TODO: why shape=(sample_count, 4, 4, 512)
     features = np.zeros(shape=(sample_count, 4, 4, 512))
-    labels = np.zeros(shape=(sample_count))
+    labels = np.zeros(shape=sample_count)
     generator = datagen.flow_from_directory(directory,
                                             target_size=(150, 150),
                                             batch_size=batch_size,
@@ -44,3 +48,23 @@ def extract_features(directory, sample_count):
         if i * batch_size >= sample_count:
             break
     return features, labels
+
+
+train_features, train_labels = extract_features(train_dir, 2000)
+validation_features, validation_labels = extract_features(validation_dir, 1000)
+test_features, test_labels = extract_features(test_dir, 1000)
+
+# %%
+model = models.Sequential()
+model.add(layers.Dense(256, activation='relu', input_dim=(4 * 4 * 512)))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(1, activation='sigmoid'))
+
+model.compile(optimizer=RMSprop(learning_rate=2e-5),
+              loss='binary_crossentropy',
+              metrics=['acc'])
+
+history = model.fit(train_features, train_labels,
+                    epochs=30, 
+                    batch_size=20,
+                    validation_data=(validation_features, validation_labels))
