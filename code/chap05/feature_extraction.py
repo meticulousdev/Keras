@@ -1,5 +1,4 @@
 # %%
-from email import generator
 from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
