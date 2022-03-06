@@ -8,6 +8,7 @@ from tensorflow.keras.optimizers import RMSprop
 
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 # %%
@@ -54,6 +55,10 @@ train_features, train_labels = extract_features(train_dir, 2000)
 validation_features, validation_labels = extract_features(validation_dir, 1000)
 test_features, test_labels = extract_features(test_dir, 1000)
 
+train_features = np.reshape(train_features, (2000, 4 * 4 * 512))
+validation_features = np.reshape(validation_features, (1000, 4 * 4 * 512))
+test_features = np.reshape(test_features, (1000, 4 * 4 * 512))
+
 # %%
 model = models.Sequential()
 model.add(layers.Dense(256, activation='relu', input_dim=(4 * 4 * 512)))
@@ -68,3 +73,25 @@ history = model.fit(train_features, train_labels,
                     epochs=30, 
                     batch_size=20,
                     validation_data=(validation_features, validation_labels))
+
+# %%
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs = range(1, len(acc) + 1)
+
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
+plt.title('Training and validation accuracy')
+plt.legend()
+
+plt.figure()
+
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+
+plt.show()
