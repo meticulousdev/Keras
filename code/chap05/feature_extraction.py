@@ -17,7 +17,6 @@ conv_base = VGG16(weights='imagenet',
 
 print(conv_base.summary())
 
-
 # %%
 folder_dir = os.getcwd()
 base_dir = folder_dir + '/datasets/cats_and_dogs_small'
@@ -34,6 +33,7 @@ def extract_features(directory, sample_count):
     # TODO: why shape=(sample_count, 4, 4, 512)
     features = np.zeros(shape=(sample_count, 4, 4, 512))
     labels = np.zeros(shape=sample_count)
+    # TODO: class_mode='binary' or 'multiple'? 기존에 학습되어 있는 건 못 쓰나?
     generator = datagen.flow_from_directory(directory,
                                             target_size=(150, 150),
                                             batch_size=batch_size,
