@@ -1,5 +1,6 @@
 # %%
-from tensorflow.keras.applications.vgg16 import VGG16
+# from tensorflow.keras.applications.vgg16 import VGG16
+from keras.applications.vgg16 import VGG16
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import models, layers
