@@ -11,6 +11,7 @@ import os
 
 # %%
 folder_dir = os.getcwd()
+# folder_dir = './code/chap05'
 original_models_dir = folder_dir + '/models/'
 
 model = load_model(original_models_dir + 'cats_and_dogs_small_2.h5')
@@ -20,11 +21,27 @@ print(model.summary())
 img_path = '/datasets/cats_and_dogs_small/test/cats/cat.1700.jpg'
 
 img = image.load_img(folder_dir + img_path, target_size=(150, 150))
-img_tensor = image.img_to_array(img)
-img_tensor = np.expand_dims(img_tensor, axis=0)
-img_tensor /= 255.
+print(f"type(img)          : {type(img)}")
 
-print(img_tensor.shape)
+img_tensor = image.img_to_array(img)
+print(f"type(img_tensor)   : {type(img_tensor)}")
+print(f"img_tensor.shape   : {img_tensor.shape}")
+print()
+
+# reshape or expand_dims
+img_tensor = np.expand_dims(img_tensor, axis=0)
+print(f"type(img_tensor)   : {type(img_tensor)}")
+print(f"img_tensor.shape   : {img_tensor.shape}")
+print(f"np.max(img_tensor) : {np.max(img_tensor)}")
+print(f"np.min(img_tensor) : {np.min(img_tensor)}")
+print()
+
+img_tensor /= 255.
+print(f"type(img_tensor)   : {type(img_tensor)}")
+print(f"img_tensor.shape   : {img_tensor.shape}")
+print(f"np.max(img_tensor) : {np.max(img_tensor)}")
+print(f"np.min(img_tensor) : {np.min(img_tensor)}")
+print()
 
 # %% test image
 plt.imshow(img_tensor[0])
@@ -34,7 +51,13 @@ plt.show()
 # Model 클래스 자세한 내용은 7.1절
 layer_outputs = [layer.output for layer in model.layers[:8]]
 activation_model = models.Model(inputs=model.input, outputs=layer_outputs)
+# model.inputs[0]: <KerasTensor: shape=(None, 150, 150, 3) dtype=float32 (created by layer 'conv2d_input')>
+
+print(activation_model.summary())
+# conv2d (Conv2D) / Output Shape / (None, 148, 148, 32)
 activations = activation_model.predict(img_tensor)
+# conv2d   / max_pooling2d   / conv2d_1 / max_pooling2d_1 /
+# conv2d_2 / max_pooling2d_2 / conv2d_3 / max_pooling2d_3 /
 
 first_layer_activation = activations[0]
 print(first_layer_activation.shape)
