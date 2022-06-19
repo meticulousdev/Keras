@@ -8,8 +8,11 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+import time
+
 
 # %%
+start = time.time()
 conv_base = VGG16(weights='imagenet',
                   include_top=False,
                   input_shape=(150, 150, 3))
@@ -94,3 +97,5 @@ plt.title('Training and validation loss')
 plt.legend()
 
 plt.show()
+
+print(f"elapsed time: {time.time() - start}")
