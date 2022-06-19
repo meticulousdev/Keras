@@ -9,8 +9,11 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras import layers
 from tensorflow.keras import models
 
+import time
+
 
 # %%
+start = time.time()
 datagen = ImageDataGenerator(rotation_range=40, 
                              width_shift_range=0.2,
                              height_shift_range=0.2,
@@ -124,3 +127,5 @@ plt.title('Training and validation loss')
 plt.legend()
 
 plt.show()
+
+print(f"elapsed time: {time.time() - start}")
