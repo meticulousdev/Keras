@@ -1,8 +1,7 @@
 # %%
-from keras import layers
-from keras import models
-# from keras import optimizers
-from keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras import layers
+from tensorflow.keras import models
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 from tensorflow.keras.optimizers import RMSprop
