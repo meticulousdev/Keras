@@ -6,8 +6,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, array_to_img
 from tensorflow.keras.optimizers import RMSprop
 
-from keras import layers
-from keras import models
+from tensorflow.keras import layers
+from tensorflow.keras import models
 
 
 # %%
