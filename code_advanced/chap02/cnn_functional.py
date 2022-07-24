@@ -53,7 +53,7 @@ model = Model(inputs=inputs, outputs=outputs)
 
 # network model in text
 model.summary()
-plot_model(model, to_file='./code/chap02/cnn_functional.png', show_shapes=True)
+plot_model(model, to_file='./code_advanced/chap02/cnn_functional.png', show_shapes=True)
 
 # classifier loss, Adam optimizer, classifier accuracy
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
