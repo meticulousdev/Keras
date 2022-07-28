@@ -186,20 +186,54 @@ multi_window = WindowGenerator(input_width=24,
 # multi_window.plot()
 # plt.show()
 
+multi_val_performance = {}
+multi_performance = {}
+
+# %%
+# Take the last time-step.
+# Shape [batch, time, features] => [batch, 1, features]
+# Shape => [batch, 1, out_steps*features]
+# Shape => [batch, out_steps, features]
+multi_linear_model = tf.keras.Sequential([tf.keras.layers.Lambda(lambda x: x[:, -1:, :]),
+                                          tf.keras.layers.Dense(OUT_STEPS*num_features,
+                                                                kernel_initializer=tf.initializers.zeros),
+                                          tf.keras.layers.Reshape([OUT_STEPS, num_features])])
+
+history = compile_and_fit(multi_linear_model, multi_window)
+
+IPython.display.clear_output()
+multi_val_performance['Linear'] = multi_linear_model.evaluate(multi_window.val)
+multi_performance['Linear'] = multi_linear_model.evaluate(multi_window.test, verbose=0)
+multi_window.plot(multi_linear_model)
+plt.show()
+
+# %%
+multi_dense_model = tf.keras.Sequential([tf.keras.layers.Lambda(lambda x: x[:, -1:, :]),
+                                        tf.keras.layers.Dense(512, activation='relu'),
+                                        tf.keras.layers.Dense(OUT_STEPS*num_features,
+                                                              kernel_initializer=tf.initializers.zeros),
+                                        tf.keras.layers.Reshape([OUT_STEPS, num_features])])
+
+history = compile_and_fit(multi_dense_model, multi_window)
+
+IPython.display.clear_output()
+multi_val_performance['Dense'] = multi_dense_model.evaluate(multi_window.val)
+multi_performance['Dense'] = multi_dense_model.evaluate(multi_window.test, verbose=0)
+multi_window.plot(multi_dense_model)
+
+# %%
 # Shape [batch, time, features] => [batch, lstm_units]
 # Adding more `lstm_units` just overfits more quickly.
 # Shape => [batch, out_steps*features]
 # Shape => [batch, out_steps, features]
 multi_lstm_model = tf.keras.Sequential([tf.keras.layers.LSTM(32, return_sequences=False),
                                         tf.keras.layers.Dense(OUT_STEPS*num_features,
-                                        kernel_initializer=tf.initializers.zeros),
+                                                              kernel_initializer=tf.initializers.zeros),
                                         tf.keras.layers.Reshape([OUT_STEPS, num_features])])
 
 history = compile_and_fit(multi_lstm_model, multi_window)
 
-IPython.display.clear_output()
-
-# multi_val_performance['LSTM'] = multi_lstm_model.evaluate(multi_window.val)
-# multi_performance['LSTM'] = multi_lstm_model.evaluate(multi_window.test, verbose=0)
+multi_val_performance['LSTM'] = multi_lstm_model.evaluate(multi_window.val)
+multi_performance['LSTM'] = multi_lstm_model.evaluate(multi_window.test, verbose=0)
 multi_window.plot(multi_lstm_model)
 plt.show()
