@@ -54,9 +54,6 @@ print(decoded_sentence)
 
 # %%
 from tensorflow.keras.layers import TextVectorization
-
-text_vectorization = TextVectorization(output_mode="int",)
-
 import re
 import string
 import tensorflow as tf
