@@ -19,7 +19,7 @@ class Vectorizer:
                     self.vocabulary[token] = len(self.vocabulary)
         self.inverse_vocabulary = dict((v, k) for k, v in self.vocabulary.items())
 
-    # TODO self.vocabulary.get 
+    # DONE self.vocabulary.get - dictionary get
     def encode(self, text):
         text = self.standardize(text)
         tokens = self.tokenize(text)
